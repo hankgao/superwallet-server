@@ -16,6 +16,9 @@ func main() {
 
 func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 	log.Infof("GET %s", r.URL.Path)
+
+	vars := mux.Vars(r)
+	coinType := vars["coinType"]
 }
 
 func getSupportedCoinsHanlder(w http.ResponseWriter, r *http.Request) {

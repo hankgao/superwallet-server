@@ -28,8 +28,8 @@ func NewSeed() (string, error) {
 	return sd, nil
 }
 
-// AddNewAddresses creates qty new addresses using a seed provided
-func AddNewAddresses(lastSeed string, qty int) (string, error) {
+// GenerateNewAddresses creates qty new addresses using a seed provided
+func GenerateNewAddresses(lastSeed string, qty int) (string, error) {
 
 	sd, seckeys := cipher.GenerateDeterministicKeyPairsSeed([]byte(lastSeed), qty)
 	entries := make([]AddressEntry, qty)
