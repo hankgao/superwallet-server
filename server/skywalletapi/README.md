@@ -1,0 +1,1 @@
+This package is designed to transcompiled into an Android Library (aar) using gomobile which can be called by skywallet android plugin.
