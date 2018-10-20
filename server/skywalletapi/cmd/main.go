@@ -7,10 +7,14 @@ import (
 )
 
 func main() {
-	coins, err := api.GetBalance("skycoin", "2iNNt6fm9LszSWe51693BeyNUKX34pPaLx8")
+	txid, err := api.SendCoin("skycoin",
+		"zT1M5dY8QwYVu1JVv77XW82tLWhdsnztEQ",
+		"3fa41a6a8a3fe3e38022e65f3bb1d8f7dafb54889236c1ceed289272ce8abe2a",
+		"LSubBsMsUTfh9f2fcTToi5584EioRVyqUV",
+		1.001)
 	if err != nil {
-
+		fmt.Println(err)
 	}
 
-	fmt.Println(coins)
+	fmt.Println(txid)
 }

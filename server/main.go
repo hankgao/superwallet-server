@@ -12,9 +12,14 @@ import (
 	skywallet "github.com/hankgao/superwallet-server/server/skywalletapi"
 	log "github.com/sirupsen/logrus"
 	"github.com/skycoin/skycoin/src/api"
+	"github.com/skycoin/skycoin/src/visor"
 )
 
 var supportedCoinTypes map[string]skywallet.CoinMeta
+
+const (
+	nodeServer string = "http://localhost"
+)
 
 func init() {
 	err := loadCoinsConfig()
@@ -28,10 +33,10 @@ func main() {
 	//https://github.com/gorilla/mux
 	// prepare routing table
 	r := mux.NewRouter()
+	r.HandleFunc("/{coinType}/getOutputs", getOutputsHandler)
 	r.HandleFunc("/{coinType}/getBalance", getBalanceHandler)
 	r.HandleFunc("/getSupportedCoins", getSupportedCoinsHanlder)
-	r.HandleFunc("{coinType}/sendCoin", sendCoinHandler)
-	r.HandleFunc("{coinType}/getOutputs", getOutputsHandler)
+	r.HandleFunc("/{coinType}/injectTransaction", injectRawTxHandler).Methods("POST")
 	r.PathPrefix("/static/").HandlerFunc(logoRequestHandler)
 	http.Handle("/", r)
 
@@ -52,6 +57,49 @@ func main() {
 
 }
 
+func injectRawTxHandler(w http.ResponseWriter, r *http.Request) {
+
+	log.Infof("POST %s", r.URL.Path)
+
+	vars := mux.Vars(r)
+	coinType := vars["coinType"]
+	if !isCoinTypeSupported(coinType) {
+		http.Error(w, fmt.Sprintf("%s is not supported", coinType), http.StatusForbidden)
+		return
+	}
+
+	rawtx := struct {
+		Rawtx string `json:"rawtx"`
+	}{}
+
+	bytes, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("[%s] %s", coinType, err), http.StatusForbidden)
+		return
+	}
+
+	err = json.Unmarshal(bytes, &rawtx)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("[%s] %s", coinType, err), http.StatusForbidden)
+		return
+	}
+
+	log.Infof("rawtx: \n%s", rawtx.Rawtx)
+
+	cm := supportedCoinTypes[coinType]
+
+	c := api.NewClient(fmt.Sprintf("%s:%s", nodeServer, cm.WebInterfacePort))
+
+	txid, err := c.InjectTransaction(rawtx.Rawtx)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("[%s] %s", coinType, err), http.StatusForbidden)
+		return
+	}
+
+	w.Write([]byte(txid))
+
+}
+
 func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 	log.Infof("GET %s", r.URL.Path)
 
@@ -62,7 +110,7 @@ func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 		ctm := supportedCoinTypes[coinType]
 
 		// localhost:webInterfacePort
-		c := api.NewClient(fmt.Sprintf("http://localhost:%s", ctm.WebInterfacePort))
+		c := api.NewClient(fmt.Sprintf("%s:%s", nodeServer, ctm.WebInterfacePort))
 
 		values := r.URL.Query()
 		// addrs should be comma seperated string
@@ -97,10 +145,6 @@ func getSupportedCoinsHanlder(w http.ResponseWriter, r *http.Request) {
 	w.Write(bytes)
 }
 
-func sendCoinHandler(w http.ResponseWriter, r *http.Request) {
-	log.Infof("PUT %s", r.URL.Path)
-}
-
 func loadCoinsConfig() error {
 	// We expect a configuration file in the current working directory
 	bytes, err := ioutil.ReadFile("coins.config.json")
@@ -128,17 +172,48 @@ func logoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, strings.TrimLeft(r.URL.Path, "/"))
 }
 
-func getOutputs(coinType, addrs string) (string, error) {
+func getOutputs(coinType, addrs string) (*visor.ReadableOutputSet, error) {
 	if !isCoinTypeSupported(coinType) {
-		return "", fmt.Errorf("%s type is not supported", coinType)
+		return nil, fmt.Errorf("%s type is not supported", coinType)
 	}
 
-	//
+	addr := fmt.Sprintf("%s:%s", nodeServer, supportedCoinTypes[coinType].WebInterfacePort)
+	c := api.NewClient(addr)
 
-	return "", nil
+	aSlice := strings.Split(addrs, ",")
+
+	return c.OutputsForAddresses(aSlice)
 }
 
 func getOutputsHandler(w http.ResponseWriter, r *http.Request) {
+	log.Infof("GET %s", r.URL.Path)
+
+	vars := mux.Vars(r)
+	coinType := vars["coinType"]
+
+	if !isCoinTypeSupported(coinType) {
+		http.Error(w, fmt.Sprintf("%s is not supported", coinType), http.StatusForbidden)
+		return
+	}
+
+	values := r.URL.Query()
+	addrs := values.Get("addrs")
+
+	o, err := getOutputs(coinType, addrs)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("[%s] failed to get outputs: %s ", coinType, err), http.StatusForbidden)
+		return
+	}
+
+	// spendable outputs
+	so := o.SpendableOutputs()
+	bytes, err := json.MarshalIndent(so, "", "    ")
+	if err != nil {
+		http.Error(w, fmt.Sprintf("[%s] failed to get outputs: %s ", coinType, err), http.StatusForbidden)
+		return
+	}
+
+	w.Write(bytes)
 
 }
 
