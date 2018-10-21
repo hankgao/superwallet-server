@@ -1,4 +1,4 @@
-package skywalletapi
+package mobile
 
 // AddressEntry represents the wallet address
 type AddressEntry struct {

@@ -1,4 +1,4 @@
-package skywalletapi
+package mobile
 
 import (
 	"bytes"

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	api "github.com/hankgao/superwallet-server/server/skywalletapi"
+	api "github.com/hankgao/superwallet-server/server/mobile"
 )
 
 func main() {
