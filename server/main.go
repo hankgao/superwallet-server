@@ -134,6 +134,8 @@ func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 
 		w.Write(bytes)
 
+	} else {
+		http.Error(w, fmt.Sprintf("%s is not supported", coinType), http.StatusForbidden)
 	}
 
 }
