@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	skywallet "github.com/hankgao/superwallet-server/server/skywalletapi"
+	skywallet "github.com/hankgao/superwallet-server/server/mobile"
 	log "github.com/sirupsen/logrus"
 	"github.com/skycoin/skycoin/src/api"
 	"github.com/skycoin/skycoin/src/visor"
@@ -92,6 +92,7 @@ func injectRawTxHandler(w http.ResponseWriter, r *http.Request) {
 
 	txid, err := c.InjectTransaction(rawtx.Rawtx)
 	if err != nil {
+		log.Errorf("failed to inject raw transaction %s", err)
 		http.Error(w, fmt.Sprintf("[%s] %s", coinType, err), http.StatusForbidden)
 		return
 	}
@@ -119,6 +120,7 @@ func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 		balance, err := c.Balance(strings.Split(addrs, ","))
 		if err != nil {
 			//TODO：
+			log.Errorf("failed to get balance %s", err)
 			response := fmt.Sprintf("getBalance handler failed: %s", err)
 			http.Error(w, response, http.StatusForbidden) // client needs to check status
 			return
@@ -139,6 +141,7 @@ func getSupportedCoinsHanlder(w http.ResponseWriter, r *http.Request) {
 	log.Infof("GET %s", r.URL.Path)
 	bytes, err := json.MarshalIndent(supportedCoinTypes, "", "    ")
 	if err != nil {
+		log.Errorf("failed to get supported coins %s", err)
 		http.Error(w, fmt.Sprintf("getSupported coins failed due to: %s", err), http.StatusForbidden)
 		return
 	}
@@ -149,12 +152,14 @@ func loadCoinsConfig() error {
 	// We expect a configuration file in the current working directory
 	bytes, err := ioutil.ReadFile("coins.config.json")
 	if err != nil {
+		log.Errorf("failed to load coin configruation file %s", err)
 		return err
 	}
 
 	cms := skywallet.CoinMetas{}
 	err = json.Unmarshal(bytes, &cms)
 	if err != nil {
+		log.Errorf("failed to unmarshal configuration data %s", err)
 		return err
 	}
 
@@ -201,6 +206,7 @@ func getOutputsHandler(w http.ResponseWriter, r *http.Request) {
 
 	o, err := getOutputs(coinType, addrs)
 	if err != nil {
+		log.Errorf("failed to get outputs %s", %s)
 		http.Error(w, fmt.Sprintf("[%s] failed to get outputs: %s ", coinType, err), http.StatusForbidden)
 		return
 	}
@@ -209,6 +215,7 @@ func getOutputsHandler(w http.ResponseWriter, r *http.Request) {
 	so := o.SpendableOutputs()
 	bytes, err := json.MarshalIndent(so, "", "    ")
 	if err != nil {
+		log.Errof("failed to marshal spendable outputs %s", err)
 		http.Error(w, fmt.Sprintf("[%s] failed to get outputs: %s ", coinType, err), http.StatusForbidden)
 		return
 	}

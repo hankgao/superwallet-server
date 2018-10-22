@@ -301,3 +301,12 @@ func sortUx(input visor.ReadableOutputs) bool {
 
 	return true
 }
+
+// GetClientID returns a unique ID for a client that will be used to identify client in later call
+// func GetClientID() uint64 {
+// 	return uint64(0)
+// }
+
+// func getClientIDFromRequest(r *http.Request) uint64 {
+// 	return uint64(0)
+// }
