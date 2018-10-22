@@ -17,8 +17,9 @@ import (
 
 var supportedCoinTypes map[string]skywallet.CoinMeta
 
-const (
+var (
 	nodeServer string = "http://localhost"
+	serverPort string = "6789"
 )
 
 func init() {
@@ -42,7 +43,7 @@ func main() {
 
 	// start server
 	srv := &http.Server{
-		Addr: "0.0.0.0:6789",
+		Addr: "0.0.0.0:" + serverPort,
 		// Good practice to set timeouts to avoid Slowloris attacks.
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
@@ -206,7 +207,7 @@ func getOutputsHandler(w http.ResponseWriter, r *http.Request) {
 
 	o, err := getOutputs(coinType, addrs)
 	if err != nil {
-		log.Errorf("failed to get outputs %s", %s)
+		log.Errorf("failed to get outputs %s", err)
 		http.Error(w, fmt.Sprintf("[%s] failed to get outputs: %s ", coinType, err), http.StatusForbidden)
 		return
 	}
@@ -215,7 +216,7 @@ func getOutputsHandler(w http.ResponseWriter, r *http.Request) {
 	so := o.SpendableOutputs()
 	bytes, err := json.MarshalIndent(so, "", "    ")
 	if err != nil {
-		log.Errof("failed to marshal spendable outputs %s", err)
+		log.Errorf("failed to marshal spendable outputs %s", err)
 		http.Error(w, fmt.Sprintf("[%s] failed to get outputs: %s ", coinType, err), http.StatusForbidden)
 		return
 	}
