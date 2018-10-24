@@ -102,7 +102,7 @@ func GenerateNewAddresses(lastSeed string, qty int) (string, error) {
 	}
 
 	nar := NewsAddressesResult{
-		LastSeed: string(sd),
+		LastSeed: hex.EncodeToString(sd),
 		Addrs:    entries,
 	}
 
