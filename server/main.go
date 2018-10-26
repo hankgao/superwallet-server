@@ -36,7 +36,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/{coinType}/getOutputs", getOutputsHandler)
 	r.HandleFunc("/{coinType}/getBalance", getBalanceHandler)
-	r.HandleFunc("/getSupportedCoins", getSupportedCoinsHanlder)
+	r.HandleFunc("/getSupportedCoins", getSupportedCoinsHandler)
 	r.HandleFunc("/{coinType}/injectTransaction", injectRawTxHandler).Methods("POST")
 	r.PathPrefix("/static/").HandlerFunc(logoRequestHandler)
 	http.Handle("/", r)
@@ -140,7 +140,7 @@ func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getSupportedCoinsHanlder(w http.ResponseWriter, r *http.Request) {
+func getSupportedCoinsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Infof("GET %s", r.URL.Path)
 	bytes, err := json.MarshalIndent(supportedCoinTypes, "", "    ")
 	if err != nil {

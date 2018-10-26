@@ -8,147 +8,147 @@
         "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "小贝壳",
-    "nameInEnglish": "shellcoin",
-    "symbol": "SC2",
-    "logoURL": "/static/sc2.logo.png",
-    "webInterfacePort": "7520",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "小贝壳",
+        "nameInEnglish": "shellcoin",
+        "symbol": "SC2",
+        "logoURL": "/static/sc2.logo.png",
+        "webInterfacePort": "7520",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "喵爪币",
-    "nameInEnglish": "mzcoin",
-    "symbol": "MZC",
-    "logoURL": "/static/mzc.logo.png",
-    "webInterfacePort": "7420",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "喵爪币",
+        "nameInEnglish": "mzcoin",
+        "symbol": "MZC",
+        "logoURL": "/static/mzc.logo.png",
+        "webInterfacePort": "7420",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "安兰德币",
-    "nameInEnglish": "aynrandcoin",
-    "symbol": "ARC",
-    "logoURL": "/static/arc.logo.png",
-    "webInterfacePort": "7720",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "安兰德币",
+        "nameInEnglish": "aynrandcoin",
+        "symbol": "ARC",
+        "logoURL": "/static/arc.logo.png",
+        "webInterfacePort": "7720",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "生命币",
-    "nameInEnglish": "aionioscoin",
-    "symbol": "ALC",
-    "logoURL": "/static/alc.logo.png",
-    "webInterfacePort": "8420",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "生命币",
+        "nameInEnglish": "aionioscoin",
+        "symbol": "ALC",
+        "logoURL": "/static/alc.logo.png",
+        "webInterfacePort": "8420",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "太阳币2",
-    "nameInEnglish": "suncoin2",
-    "symbol": "SUN2",
-    "logoURL": "/static/sun2.logo.png",
-    "webInterfacePort": "8421",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "太阳币2",
+        "nameInEnglish": "suncoin2",
+        "symbol": "SUN2",
+        "logoURL": "/static/sun2.logo.png",
+        "webInterfacePort": "8421",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "石斛币",
-    "nameInEnglish": "shihucoin",
-    "symbol": "SHC",
-    "logoURL": "/static/shc.logo.png",
-    "webInterfacePort": "8460",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "石斛币",
+        "nameInEnglish": "shihucoin",
+        "symbol": "SHC",
+        "logoURL": "/static/shc.logo.png",
+        "webInterfacePort": "8460",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "永邦币",
-    "nameInEnglish": "yongbangcoin",
-    "symbol": "YBC",
-    "logoURL": "/static/ybc.logo.png",
-    "webInterfacePort": "7050",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "永邦币",
+        "nameInEnglish": "yongbangcoin",
+        "symbol": "YBC",
+        "logoURL": "/static/ybc.logo.png",
+        "webInterfacePort": "7050",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "金属币",
-    "nameInEnglish": "metalcoin",
-    "symbol": "MTLC",
-    "logoURL": "/static/mtlc.logo.png",
-    "webInterfacePort": "7250",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "金属币",
+        "nameInEnglish": "metalcoin",
+        "symbol": "MTLC",
+        "logoURL": "/static/mtlc.logo.png",
+        "webInterfacePort": "7250",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "新西兰币",
-    "nameInEnglish": "newzealandcoin",
-    "symbol": "NZC",
-    "logoURL": "/static/nzc.logo.png",
-    "webInterfacePort": "7150",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "新西兰币",
+        "nameInEnglish": "newzealandcoin",
+        "symbol": "NZC",
+        "logoURL": "/static/nzc.logo.png",
+        "webInterfacePort": "7150",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "斐济币",
-    "nameInEnglish": "fijicoin",
-    "symbol": "FJC",
-    "logoURL": "/static/fjc.logo.png",
-    "webInterfacePort": "7180",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "斐济币",
+        "nameInEnglish": "fijicoin",
+        "symbol": "FJC",
+        "logoURL": "/static/fjc.logo.png",
+        "webInterfacePort": "7180",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "砖币",
-    "nameInEnglish": "brikcoin",
-    "symbol": "BRC",
-    "logoURL": "/static/brc.logo.png",
-    "webInterfacePort": "7220",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "砖币",
+        "nameInEnglish": "brikcoin",
+        "symbol": "BRC",
+        "logoURL": "/static/brc.logo.png",
+        "webInterfacePort": "7220",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "猪币",
-    "nameInEnglish": "pigcoin",
-    "symbol": "PGC",
-    "logoURL": "/static/pgc.logo.png",
-    "webInterfacePort": "7290",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "猪币",
+        "nameInEnglish": "pigcoin",
+        "symbol": "PGC",
+        "logoURL": "/static/pgc.logo.png",
+        "webInterfacePort": "7290",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "酒币",
-    "nameInEnglish": "liquorcoin",
-    "symbol": "LiQC",
-    "logoURL": "/static/liqc.logo.png",
-    "webInterfacePort": "7460",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "酒币",
+        "nameInEnglish": "liquorcoin",
+        "symbol": "LiQC",
+        "logoURL": "/static/liqc.logo.png",
+        "webInterfacePort": "7460",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "天使币",
-    "nameInEnglish": "angelcoin",
-    "symbol": "AGLC",
-    "logoURL": "/static/aglc.logo.png",
-    "webInterfacePort": "7490",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "天使币",
+        "nameInEnglish": "angelcoin",
+        "symbol": "AGLC",
+        "logoURL": "/static/aglc.logo.png",
+        "webInterfacePort": "7490",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "芬兰币",
-    "nameInEnglish": "fincoin",
-    "symbol": "FNC",
-    "logoURL": "/static/fnc.logo.png",
-    "webInterfacePort": "7550",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "芬兰币",
+        "nameInEnglish": "fincoin",
+        "symbol": "FNC",
+        "logoURL": "/static/fnc.logo.png",
+        "webInterfacePort": "7550",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "桂币",
-    "nameInEnglish": "guicoin",
-    "symbol": "GUIC",
-    "logoURL": "/static/guic.logo.png",
-    "webInterfacePort": "7590",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "桂币",
+        "nameInEnglish": "guicoin",
+        "symbol": "GUIC",
+        "logoURL": "/static/guic.logo.png",
+        "webInterfacePort": "7590",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "蓝天币",
-    "nameInEnglish": "lantiancoin",
-    "symbol": "LanTC",
-    "logoURL": "/static/lantc.logo.png",
-    "webInterfacePort": "7610",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "蓝天币",
+        "nameInEnglish": "lantiancoin",
+        "symbol": "LanTC",
+        "logoURL": "/static/lantc.logo.png",
+        "webInterfacePort": "7610",
+        "nodeVersion": "0.24.1"
     },
     {
-    "nameInChinese": "天空币",
-    "nameInEnglish": "skycoin",
-    "symbol": "SKY",
-    "logoURL": "/static/sky.logo.png",
-    "webInterfacePort": "6420",
-    "nodeVersion": "0.24.1"
+        "nameInChinese": "天空币",
+        "nameInEnglish": "skycoin",
+        "symbol": "SKY",
+        "logoURL": "/static/sky.logo.png",
+        "webInterfacePort": "6420",
+        "nodeVersion": "0.24.1"
     }
 ]
