@@ -102,6 +102,18 @@ func injectRawTxHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+/**
+This is what is returned
+{
+    "confirmed": {
+        "coins": 21000000,
+        "hours": 142744
+    },
+    "predicted": {
+        "coins": 21000000,
+        "hours": 142744
+    }
+*/
 func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 	log.Infof("GET %s", r.URL.Path)
 
@@ -123,19 +135,21 @@ func getBalanceHandler(w http.ResponseWriter, r *http.Request) {
 			//TODO：
 			log.Errorf("failed to get balance %s", err)
 			response := fmt.Sprintf("getBalance handler failed: %s", err)
-			http.Error(w, response, http.StatusForbidden) // client needs to check status
+			http.Error(w, response, http.StatusInternalServerError) // client needs to check status
 			return
 		}
 
 		bytes, err := json.MarshalIndent(balance, "", "    ")
 		if err != nil {
 			log.Errorf("failed to marshal return balance result: %s", err)
+			response := fmt.Sprintf("getBalance handler failed: %s", err)
+			http.Error(w, response, http.StatusInternalServerError) // client needs to check status
 		}
 
 		w.Write(bytes)
 
 	} else {
-		http.Error(w, fmt.Sprintf("%s is not supported", coinType), http.StatusForbidden)
+		http.Error(w, fmt.Sprintf("%s is not supported", coinType), http.StatusBadRequest)
 	}
 
 }

@@ -14,8 +14,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hankgao/superwallet-server/server/mobile/bitcoin"
 	"github.com/skycoin/skycoin/src/cipher"
 	"github.com/skycoin/skycoin/src/coin"
+	"github.com/skycoin/skycoin/src/util/droplet"
 	"github.com/skycoin/skycoin/src/visor"
 	bip39 "github.com/tyler-smith/go-bip39"
 )
@@ -145,11 +147,30 @@ func SendCoin(coinType, inputAddresses, privateKeys, targetAddress string, amoun
 	return string(bodyBytes), nil
 }
 
+func bitcoinGetBalance(addrs string) (string, error) {
+	b := bitcoin.Bitcoin{}
+	balance, err := b.GetBalance(strings.Split(addrs, ","))
+	if err != nil {
+		return "", err
+	}
+
+	return balance.String(), nil
+}
+
+func bitcoinSendcoin() {
+
+}
+
 // GetBalance returns balances of addresses
 func GetBalance(coinType, addresses string) (string, error) {
 	// check to see if coinType is bitcoin, if it is, then go to Bitcoin code
 	path := fmt.Sprintf("%s/%s/%s", superwalletServer, coinType, GET_BALANCE)
 
+	if coinType == "bitcoin" {
+		return bitcoinGetBalance(addresses)
+	}
+
+	// skycoin based coin
 	req, err := http.NewRequest("GET", path, nil)
 	if err != nil {
 		return "", err
@@ -255,12 +276,13 @@ func createRawTx(coinType, inputAddresses, privateKeys, targetAddress string, am
 	var inputDroplets, inputHours uint64
 	var signKeys []cipher.SecKey
 	for _, ux := range o {
-		d, err := strconv.ParseFloat(ux.Coins, 64)
+		d, err := droplet.FromString(ux.Coins)
 		if err != nil {
 			return "", err
 		}
 
-		inputDroplets += uint64(d * 1000000)
+		inputDroplets += d
+
 		inputHours += ux.CalculatedHours
 
 		tx.PushInput(cipher.MustSHA256FromHex(ux.Hash))
