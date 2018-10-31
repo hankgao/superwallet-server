@@ -144,6 +144,10 @@ func SendCoin(coinType, inputAddresses, privateKeys, targetAddress string, amoun
 		return "", err
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf(string(bodyBytes))
+	}
+
 	return string(bodyBytes), nil
 }
 
