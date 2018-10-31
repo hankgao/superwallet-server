@@ -25,6 +25,7 @@ import (
 var httpClient http.Client
 
 const (
+	packageVersion      string        = "1.0.1"
 	dialTimeout         time.Duration = 60 * time.Second
 	tlsHandshakeTimeout time.Duration = 60 * time.Second
 	httpClientTimeout   time.Duration = 120 * time.Second
@@ -54,6 +55,11 @@ func init() {
 // SetServer allows client to change back-end server, for example, for testing purpose
 func SetServer(url string) {
 	superwalletServer = url
+}
+
+// GetApiVersion returns the version that is being used
+func GetApiVersion() string {
+	return packageVersion
 }
 
 // GetSupportedCoins returns a list of coins that are currently supported, in JSON format
