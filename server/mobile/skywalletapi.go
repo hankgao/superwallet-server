@@ -97,9 +97,24 @@ func NewSeed() (string, error) {
 	return sd, nil
 }
 
-// GenerateNewAddresses creates qty new addresses using a seed provided
-func GenerateNewAddresses(lastSeed string, qty int) (string, error) {
+func bitcoinGenerateAddrs(lastSeed string, qty int) NewAddressesResult {
+	stub, addrs := bitcoin.GenerateAddresses([]byte(lastSeed), qty)
 
+	entries := make([]AddressEntry, qty)
+	for i, addr := range addrs {
+		entries[i].Address = addr.Address
+		entries[i].Public = addr.Public
+		entries[i].Secret = addr.Secret
+	}
+
+	return NewAddressesResult{
+		LastSeed: stub,
+		Addrs:    entries,
+	}
+
+}
+
+func skycoinGenerateAddrs(lastSeed string, qty int) NewAddressesResult {
 	sd, seckeys := cipher.GenerateDeterministicKeyPairsSeed([]byte(lastSeed), qty)
 	entries := make([]AddressEntry, qty)
 	for i, sec := range seckeys {
@@ -109,9 +124,21 @@ func GenerateNewAddresses(lastSeed string, qty int) (string, error) {
 		entries[i].Secret = sec.Hex()
 	}
 
-	nar := NewsAddressesResult{
+	return NewAddressesResult{
 		LastSeed: hex.EncodeToString(sd),
 		Addrs:    entries,
+	}
+
+}
+
+// GenerateNewAddresses creates qty new addresses using a seed provided
+func GenerateNewAddresses(coinType, lastSeed string, qty int) (string, error) {
+
+	nar := NewAddressesResult{}
+	if coinType == "bitcoin" {
+		nar = bitcoinGenerateAddrs(lastSeed, qty)
+	} else {
+		nar = skycoinGenerateAddrs(lastSeed, qty)
 	}
 
 	jsonBytes, err := json.MarshalIndent(nar, "", "    ")

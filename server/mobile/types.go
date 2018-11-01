@@ -7,8 +7,8 @@ type AddressEntry struct {
 	Secret  string `json:"seckey"`
 }
 
-// NewsAddressesResult represents a result returned by function NewAddresses
-type NewsAddressesResult struct {
+// NewAddressesResult represents a result returned by function NewAddresses
+type NewAddressesResult struct {
 	LastSeed string         `json:"lastseed"`
 	Addrs    []AddressEntry `json:"addrs"`
 }
