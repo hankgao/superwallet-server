@@ -12,14 +12,15 @@ import (
 	skywallet "github.com/hankgao/superwallet-server/server/mobile"
 	log "github.com/sirupsen/logrus"
 	"github.com/skycoin/skycoin/src/api"
+	"github.com/skycoin/skycoin/src/daemon"
 	"github.com/skycoin/skycoin/src/visor"
 )
 
 var supportedCoinTypes map[string]skywallet.CoinMeta
 
 var (
-	nodeServer string = "http://localhost"
-	serverPort string = "6789"
+	nodeServer = "http://localhost"
+	serverPort = "6789"
 )
 
 func init() {
@@ -38,6 +39,7 @@ func main() {
 	r.HandleFunc("/{coinType}/getBalance", getBalanceHandler)
 	r.HandleFunc("/getSupportedCoins", getSupportedCoinsHandler)
 	r.HandleFunc("/{coinType}/injectTransaction", injectRawTxHandler).Methods("POST")
+	r.HandleFunc("/{coinType}/transaction", getTransactionHandler)
 	r.PathPrefix("/static/").HandlerFunc(logoRequestHandler)
 	http.Handle("/", r)
 
@@ -207,6 +209,17 @@ func getOutputs(coinType, addrs string) (*visor.ReadableOutputSet, error) {
 	return c.OutputsForAddresses(aSlice)
 }
 
+func getTransaction(coinType, txid string) (*daemon.TransactionResult, error) {
+	if !isCoinTypeSupported(coinType) {
+		return nil, fmt.Errorf("%s type is not supported", coinType)
+	}
+
+	addr := fmt.Sprintf("%s:%s", nodeServer, supportedCoinTypes[coinType].WebInterfacePort)
+	c := api.NewClient(addr)
+
+	return c.Transaction(txid)
+}
+
 func getOutputsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Infof("GET %s", r.URL.Path)
 
@@ -248,4 +261,33 @@ func isCoinTypeSupported(coinType string) bool {
 	}
 
 	return true
+}
+
+func getTransactionHandler(w http.ResponseWriter, r *http.Request) {
+	log.Infof("GET %s", r.URL.Path)
+
+	vars := mux.Vars(r)
+	coinType := vars["coinType"]
+
+	if !isCoinTypeSupported(coinType) {
+		http.Error(w, fmt.Sprintf("%s is not supported", coinType), http.StatusForbidden)
+		return
+	}
+
+	values := r.URL.Query()
+	txid := values.Get("txid")
+
+	tr, err := getTransaction(coinType, txid)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("failed to get transaction information for txid :%s", txid), http.StatusInternalServerError)
+		return
+	}
+	txJSON, err := json.MarshalIndent(tr.Transaction, "", "    ")
+	if err != nil {
+		http.Error(w, fmt.Sprintf("failed to marshal transaction information for txid :%s", txid), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(txJSON)
+
 }
