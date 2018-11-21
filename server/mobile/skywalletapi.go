@@ -245,7 +245,23 @@ func GetOutputs(coinType, addrs string) (string, error) {
 }
 
 func GetTransaction(coinType, txID string) (string, error) {
-	return "", nil
+	// superwallet.shellpay2.com/mzcoin/transaction
+	path := fmt.Sprintf("%s/%s/%s", superwalletServer, coinType, GET_TRANSACTION)
+
+	req, err := http.NewRequest("GET", path, nil)
+	if err != nil {
+		return "", err
+	}
+
+	q := req.URL.Query()
+	q.Add("txid", txID)
+
+	req.URL.RawQuery = q.Encode()
+
+	path = req.URL.String()
+	// superwallet.shellpay2.com/mzcoin/transaction?txid=<txID>
+
+	return httpGet(path)
 }
 
 func httpGet(path string) (string, error) {
