@@ -25,19 +25,20 @@ import (
 var httpClient http.Client
 
 const (
-	packageVersion      string        = "1.0.1"
+	packageVersion                    = "1.0.2"
 	dialTimeout         time.Duration = 60 * time.Second
 	tlsHandshakeTimeout time.Duration = 60 * time.Second
 	httpClientTimeout   time.Duration = 120 * time.Second
 	coinHourFee         uint64        = 50 // percent, i.e, 50%
 
-	GET_SUPPORTED_COINS string = "getSupportedCoins"
-	GET_BALANCE         string = "getBalance"
-	GET_OUTPUTS         string = "getOutputs"
-	INJECT_TRANSACTION  string = "injectTransaction"
+	GET_SUPPORTED_COINS = "getSupportedCoins"
+	GET_BALANCE         = "getBalance"
+	GET_OUTPUTS         = "getOutputs"
+	INJECT_TRANSACTION  = "injectTransaction"
+	GET_TRANSACTION     = "transaction"
 )
 
-var superwalletServer string = "http://127.0.0.1:6789"
+var superwalletServer = "http://127.0.0.1:6789"
 
 func init() {
 	transport := &http.Transport{
@@ -241,6 +242,10 @@ func GetOutputs(coinType, addrs string) (string, error) {
 	path = req.URL.String()
 
 	return httpGet(path)
+}
+
+func GetTransaction(coinType, txID string) (string, error) {
+	return "", nil
 }
 
 func httpGet(path string) (string, error) {
