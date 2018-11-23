@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/hankgao/superwallet-server/server/mobile/bitcoin"
+	log "github.com/sirupsen/logrus"
 	"github.com/skycoin/skycoin/src/cipher"
 	"github.com/skycoin/skycoin/src/coin"
 	"github.com/skycoin/skycoin/src/util/droplet"
@@ -51,6 +52,8 @@ func init() {
 		Transport: transport,
 		Timeout:   httpClientTimeout,
 	}
+
+	log.SetLevel(log.InfoLevel)
 }
 
 // SetServer allows client to change back-end server, for example, for testing purpose
@@ -259,6 +262,7 @@ func GetTransaction(coinType, txID string) (string, error) {
 	req.URL.RawQuery = q.Encode()
 
 	path = req.URL.String()
+	log.Info("send HTTP request: ", path)
 	// superwallet.shellpay2.com/mzcoin/transaction?txid=<txID>
 
 	return httpGet(path)
@@ -267,12 +271,14 @@ func GetTransaction(coinType, txID string) (string, error) {
 func httpGet(path string) (string, error) {
 	r, err := httpClient.Get(path)
 	if err != nil {
+		log.Error("failed to request ", path, " => ", err.Error())
 		return "", err
 	}
 
 	defer r.Body.Close()
 	rawBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		log.Error("failed to read response data =>", err.Error())
 		return "", err
 	}
 
